@@ -1,0 +1,12 @@
+{
+  "name": "voxel-creature-example",
+  "version": "0.0.0",
+  "description": "voxel-creature exmaple",
+  "main": "server.js",
+  "dependencies": {
+    "ecstatic": "~0.3.2",
+    "voxel-engine": "~0.3.6",
+    "voxel-debris": "0.0.4",
+    "browserify": "~1.17.2"
+  }
+}
