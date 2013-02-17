@@ -7,6 +7,7 @@ var game = createEngine({
     texturePath: './',
     materials: [ 'dirt', 'grass', 'crate', 'brick' ]
 });
+game.controls.pitchObject.rotation.x = -1.5
 game.appendTo('#container');
 
 var explode = require('voxel-debris')(game, { power : 1.5 });
@@ -27,7 +28,11 @@ var erase = true
 function ctrlToggle (ev) { erase = !ev.ctrlKey }
 game.requestPointerLock('canvas');
 
-game.addItem((function () {
+for (var i = 0; i < 10; i++) {
+    game.addItem(createCreature(0, 550, 0));
+}
+
+function createCreature (x, y, z) {
     var material = game.loadTextures([ 'obsidian' ]);
     var mesh = new game.THREE.Mesh(
         new game.THREE.CubeGeometry(10, 30, 10),
@@ -36,9 +41,9 @@ game.addItem((function () {
     mesh.geometry.faces.forEach(function (face) {
         face.materialIndex = 0;
     });
-    mesh.translateX(87.5);
-    mesh.translateY(550);
-    mesh.translateZ(12.5);
+    mesh.translateX(x);
+    mesh.translateY(y);
+    mesh.translateZ(z);
     
     var item = {
         mesh: mesh,
@@ -48,14 +53,19 @@ game.addItem((function () {
         collisionRadius: 20,
         velocity: { x: 0, y: 0, z: 0 }
     };
-    setInterval(function () {
+    
+    setTimeout(function () {
+        setInterval(interval, 2000);
+    }, Math.random() * 2000);
+    
+    function interval () {
         if (item.velocity.y > 0.01) return;
         item.velocity.y += 0.1;
         item.velocity.x += (2 * Math.random() - 1) / 40;
         item.velocity.z += (2 * Math.random() - 1) / 40;
         mesh.translateY(5);
         item.resting = false;
-    }, 2000);
+    }
     
     return item;
-})());
+}
