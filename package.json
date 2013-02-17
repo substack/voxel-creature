@@ -1,0 +1,30 @@
+{
+    "name": "voxel-creature",
+    "version": "0.0.0",
+    "description": "create creatures for voxel.js",
+    "main": "index.js",
+    "dependencies": {
+        "inherits": "~1.0.0"
+    },
+    "devDependencies": {
+        "voxel-engine": "~0.5.7",
+        "voxel-player": "~0.0.2",
+        "voxel": "~0.1.5"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/substack/voxel-creature.git"
+    },
+    "homepage": "https://github.com/substack/voxel-creature",
+    "keywords": [
+        "voxel",
+        "creature",
+        "game"
+    ],
+    "author": {
+        "name": "James Halliday",
+        "email": "mail@substack.net",
+        "url": "http://substack.net"
+    },
+    "license": "MIT"
+}
