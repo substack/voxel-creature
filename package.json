@@ -1,6 +1,6 @@
 {
     "name": "voxel-creature",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "create creatures for voxel.js",
     "main": "index.js",
     "dependencies": {

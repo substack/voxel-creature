@@ -71,16 +71,23 @@ Creature.prototype.notice = function (target, opts) {
     var self = this;
     if (!opts) opts = {};
     if (opts.radius === undefined) opts.radius = 500;
+    if (opts.collisionRadius === undefined) opts.collisionRadius = 25;
     if (opts.interval === undefined) opts.interval = 1000;
     var pos = target.position || target;
     
     return setInterval(function () {
-        if (self.position.distanceTo(pos) < opts.radius) {
+        var dist = self.position.distanceTo(pos);
+        if (dist < opts.collisionRadius) {
+            self.emit('collide', target);
+        }
+        
+        if (dist < opts.radius) {
             self.noticed = true;
             self.emit('notice', target);
         }
         else {
             self.noticed = false;
+            self.emit('frolic', target);
         }
     }, opts.interval);
 };

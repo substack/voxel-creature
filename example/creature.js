@@ -62,8 +62,11 @@ creature.on('notice', function (player) {
     creature.move(0, 0, 0.5);
 });
 
-setInterval(function () {
-    if (creature.noticed) return;
+creature.on('frolic', function () {
     creature.rotation.y += Math.random() * Math.PI / 2 - Math.PI / 4;
     creature.move(0, 0, 0.5 * Math.random());
-}, 1000);
+});
+
+creature.on('collide', function (player) {
+    console.log('COLLIDE');
+});

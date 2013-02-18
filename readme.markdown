@@ -116,8 +116,12 @@ Return an interval for detecting the presence of `target`.
 `target` should be a 3d vector itself or it should have a `target.position`.
 
 The `opts.radius` controls how nearby `target` needs to be to trigger a
-`'notice'` event.
+`'notice'` event. Otherwise `'frolic'` events fire.
 The default `opts.radius` is `500`.
+
+The `opts.collisionRadius` controls how nearby `target` needs to be to trigger a
+`'collide'` event.
+The default `opts.collisionRadius` is `25`.
 
 The `opts.interval` controls how often to check the distance to `target`.
 The default `opts.interval` is `1000`.
@@ -128,6 +132,11 @@ The default `opts.interval` is `1000`.
 
 When `target` is within the radius configured by `creature.notice()`, the
 `'notice'` event fires.
+
+## creature.on('collide', function (target) {})
+
+When `target` is within the collision radius configured in `creature.notice()`,
+the `'collide'` event fires.
 
 ## creature.on('block', function () {})
 
