@@ -9,29 +9,23 @@ module.exports = function (game) {
 
 inherits(Creature, EventEmitter);
 
+module.exports.Creature = Creature;
+
 function Creature (game, obj, opts) {
-    var T = game.THREE;
     this.game = game;
-    
+
     if (!opts) opts = {};
-    var force = opts.force || [ 0, -0.00009, 0 ];
-    if (Array.isArray(force)) {
-        force = new T.Vector3(force[0], force[1], force[2]);
-    }
-    else force = new T.Vector3(force.x, force.y, force.z);
-    
-    var dims = opts.dims || new T.Vector3(10, 10, 10);
-    this.item = game.makePhysical(obj, dims);
-    this.item.subjectTo(force);
-    game.scene.add(obj);
-    game.addItem(this.item);
+    opts.size = opts.size || this.game.cubeSize;
+    opts.velocity = opts.velocity || {x:0,y:0,z:0};
+    opts.mesh = obj;
+    this.item = this.game.addItem(opts);
     
     this.position = this.item.yaw.position;
     this.rotation = this.item.yaw.rotation;
 }
 
 Creature.prototype.jump = function (x) {
-    if (x === undefined) x = 1;
+    if (x === undefined) x = 0.02;
     this.move(0, x, 0);
 };
 
@@ -45,16 +39,16 @@ Creature.prototype.move = function (x, y, z) {
     if (typeof x === 'object') {
         y = x.y; z = x.z; x = x.x;
     }
-    this.item.velocity.x += x;
-    this.item.velocity.y += y;
-    this.item.velocity.z += z;
+    this.item.velocity.x = x;
+    this.item.velocity.y = y;
+    this.item.velocity.z = z;
     
     if (this.item.velocity.y === 0) {
         var angle = this.rotation.y;
         var pt = this.position.clone();
         pt.x += game.cubeSize / 2 * Math.sin(angle);
         pt.z += game.cubeSize / 2 * Math.cos(angle);
-        if (game.getBlock(pt)) this.emit('block');
+        if (game.getBlock([pt.x, pt.y, pt.z + 1])) this.emit('block');
     }
 };
 
@@ -70,8 +64,8 @@ Creature.prototype.lookAt = function (obj) {
 Creature.prototype.notice = function (target, opts) {
     var self = this;
     if (!opts) opts = {};
-    if (opts.radius === undefined) opts.radius = 500;
-    if (opts.collisionRadius === undefined) opts.collisionRadius = 25;
+    if (opts.radius === undefined) opts.radius = 50;
+    if (opts.collisionRadius === undefined) opts.collisionRadius = 2;
     if (opts.interval === undefined) opts.interval = 1000;
     var pos = target.position || target;
     
