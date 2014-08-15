@@ -16,7 +16,9 @@ function Creature (game, obj, opts) {
 
     if (!opts) opts = {};
     opts.size = opts.size || this.game.cubeSize;
-    opts.velocity = opts.velocity || {x:0,y:0,z:0};
+    if (!opts.disablePhysics) {
+        opts.velocity = opts.velocity || {x:0,y:0,z:0};
+    }
     opts.mesh = obj;
     this.item = this.game.addItem(opts);
     
